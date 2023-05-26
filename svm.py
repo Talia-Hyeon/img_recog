@@ -20,7 +20,7 @@ def svm_pip(x_train, y_train, x_test, y_test, label):
     # adjust hyper-parameter
     param_grid = [
         {'C': [0.5, 1.0, 5, 10, 15, 20]},
-        {'kernel': ['linear', 'rbf', 'poly', 'sigmod']},
+        {'kernel': ['linear', 'rbf', 'poly', 'sigmoid']},
         {'degree': [2, 3]}, {'gamma': ['scale', 'auto']}
     ]
     grid_search = GridSearchCV(svc, param_grid, cv=5)
