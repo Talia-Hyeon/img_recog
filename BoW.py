@@ -27,13 +27,13 @@ def dense_SIFT(data_set, step_size=10, sampling=True, sample_portion=0.4):
     return data_set
 
 
-def get_all_desc(data):
-    desc_l = []
+def get_all_item(data, key):
+    item_l = []
     for i in data:
-        desc = i['desc']
-        desc_l.append(desc)
-    all_desc = np.concatenate(desc_l, axis=0)
-    return all_desc
+        value = i[key]
+        item_l.append(value)
+    all_item = np.concatenate(item_l, axis=0)
+    return all_item
 
 
 def scaling_pca(all_desc, num_com=0.95):  # 95% 분산 유지하도록 수정 (60-70개)
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     # plt.show()
 
     # pca
-    sample_desc = get_all_desc(sample_set)
+    sample_desc = get_all_item(data=sample_set, key='desc')
     feature_pca, pca = scaling_pca(sample_desc)
     print("reduced demension: {}".format(feature_pca[0].shape))
 
@@ -89,7 +89,9 @@ if __name__ == '__main__':
         train_img_vector = encode_img(desc=train_desc, pca=pca, km=km)
         img_vectors_train.append(train_img_vector)
     X_train = np.concatenate(img_vectors_train, axis=0)
-    np.save('train_img_vector.npy')
+    np.save('train_img_vector.npy', X_train)
+    y_train = get_all_item(data=train_set, key='label')
+    np.save('train_label.npy',y_train)
 
     # for test set
     test_set = dense_SIFT(test_set, sampling=False)
@@ -99,4 +101,6 @@ if __name__ == '__main__':
         test_img_vector = encode_img(desc=test_desc, pca=pca, km=km)
         img_vectors_test.append(test_img_vector)
     X_test = np.concatenate(img_vectors_test, axis=0)
-    np.save('test_img_vector.npy')
+    np.save('test_img_vector.npy', X_test)
+    y_test = get_all_item(data=test_set, key='label')
+    np.save('test_label.npy', y_test)
