@@ -12,19 +12,22 @@ from caltech20 import label_dictionary
 
 
 def svm_pip(x_train, y_train, x_test, y_test, label):
-    svc = SVC(random_state=42)
-    # adjust hyper-parameter
-    param_grid = [
-        {'C': [0.5, 1.0, 5, 10, 15, 20]},
-        {'kernel': ['linear', 'rbf', 'poly', 'sigmod']},
-        {'degree': [2, 3]}, {'gamma': ['scale', 'auto']}
-    ]
-    grid_search = GridSearchCV(svc, param_grid, cv=5)
+    # # scale
+    # scaler = MinMaxScaler()
+    # x_train_min = scaler.fit_transform(x_train)
+    #
+    # svc = SVC(random_state=42)
+    # # adjust hyper-parameter
+    # param_grid = [
+    #     {'C': [0.5, 1.0, 5, 10, 15, 20]},
+    #     {'kernel': ['linear', 'rbf', 'poly', 'sigmod']},
+    #     {'degree': [2, 3]}, {'gamma': ['scale', 'auto']}
+    # ]
+    # grid_search = GridSearchCV(svc, param_grid, cv=5)
+    # grid_search.fit(x_train_min, y_train)
+    # print("best hyper-parameter\n{}".format(grid_search.best_params_))
+    # svc_min = grid_search.best_estimator_
 
-    # MinMaxScaler()
-    ##    print('find best prameters of SGDClassifier_MinMax')
-    ##    grid_search.fit(x_train_min, y_train)
-    ##    print(grid_search.best_params_)
     # accuracy
     svc_min = Pipeline([
         ("scaler", MinMaxScaler()),
@@ -53,7 +56,9 @@ if __name__ == '__main__':
     x_test = np.load('test_img_vector.npy')
     y_test = np.load('test_label.npy')
 
+    # get label list
     label_dic = label_dictionary
     label_l = label_dic.keys()
     label_l.sort()
+
     scv = svm_pip(x_train, y_train, x_test, y_test, label=label_l)
