@@ -8,7 +8,7 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from caltech20 import label_dictionary
+from caltech20 import label_dic
 
 
 def svm_pip(x_train, y_train, x_test, y_test, label):
