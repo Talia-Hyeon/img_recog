@@ -1,11 +1,17 @@
+import numpy as np
 from sklearn.svm import SVC
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-def svm_pip(x_train, y_train, x_test, y_test):
+from caltech20 import label_dictionary
+
+
+def svm_pip(x_train, y_train, x_test, y_test, label):
     svc = SVC(random_state=42)
     # adjust hyper-parameter
     param_grid = [
@@ -25,6 +31,29 @@ def svm_pip(x_train, y_train, x_test, y_test):
         ("svc_clf", SVC(C=10, random_state=42))
     ])
     svc_min.fit(x_train, y_train)
+
+    # test
     y_pred = svc_min.predict(x_test)
     accuracy = accuracy_score(y_test, y_pred)
     print('accuracy of SVC_minmax=', accuracy)
+
+    # confusion matrix
+    cm = confusion_matrix(y_test, y_pred, labels=label)
+    sns.heatmap(cm, annot=True, cmap='Blues')
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.show()
+    return svc_min
+
+
+if __name__ == '__main__':
+    # load data: .npy
+    x_train = np.load('train_img_vector.npy')
+    y_train = np.load('train_label.npy')
+    x_test = np.load('test_img_vector.npy')
+    y_test = np.load('test_label.npy')
+
+    label_dic = label_dictionary
+    label_l = label_dic.keys()
+    label_l.sort()
+    scv = svm_pip(x_train, y_train, x_test, y_test, label=label_l)

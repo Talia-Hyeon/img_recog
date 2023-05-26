@@ -1,4 +1,5 @@
 import random
+import warnings
 
 import cv2
 import numpy as np
@@ -7,6 +8,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
 from caltech20 import *
+
+warnings.filterwarnings("ignore")
 
 
 def dense_SIFT(data_set, step_size=10, sampling=True, sample_portion=0.4):
@@ -91,7 +94,7 @@ if __name__ == '__main__':
     X_train = np.concatenate(img_vectors_train, axis=0)
     np.save('train_img_vector.npy', X_train)
     y_train = get_all_item(data=train_set, key='label')
-    np.save('train_label.npy',y_train)
+    np.save('train_label.npy', y_train)
 
     # for test set
     test_set = dense_SIFT(test_set, sampling=False)
