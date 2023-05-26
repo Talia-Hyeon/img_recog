@@ -48,13 +48,13 @@ def scaling_pca(all_desc, num_com=0.95):  # 95% 분산 유지하도록 수정 (6
 
 def encode_img(desc, pca, km):
     desc_pca = pca.transform(desc)
-    desc_cluster = km.predict(desc_pca)
+    desc_cluster = km.transform(desc_pca)
     print("desc_cluster's shape: {}".format(desc_cluster.shape))
     print("km's features: {}".format(km.n_features_in_))
-    img_vector = np.zeros(km.n_features_in_)  # 1500
-    labels = km.labels_
+    img_vector = np.zeros(1500)  # 1500
+    labels = km.predict(desc_cluster)
     print("labels's shape: {}".format(labels.shape))
-    for cluster in desc_cluster:
+    for cluster in labels:
         img_vector[cluster] += 1
     return img_vector
 
