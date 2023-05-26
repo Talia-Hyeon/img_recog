@@ -58,8 +58,8 @@ if __name__ == '__main__':
     y_test = np.load('test_label.npy')
 
     # get label list
-    label_dic = label_dic
-    label_l = label_dic.keys()
+    label_dictionary = label_dic()
+    label_l = list(label_dictionary.keys())
     label_l.sort()
 
     scv = svm_pip(x_train, y_train, x_test, y_test, label=label_l)
