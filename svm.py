@@ -33,7 +33,6 @@ def svm_pip(x_train, y_train, x_test, y_test, label):
         ("scaler", MinMaxScaler()),
         ("svc_clf", SVC(C=10, random_state=42))
     ])
-    print("x's shape: {}, y's shape:{}".format(x_train.shape, y_train.shape))
     svc_min.fit(x_train, y_train)
 
     # test
@@ -57,6 +56,8 @@ if __name__ == '__main__':
     y_train = np.load('train_label.npy')
     x_test = np.load('test_img_vector.npy')
     y_test = np.load('test_label.npy')
+    print("train) x's shape: {}, y's shape:{}".format(x_train.shape, y_train.shape))
+    print("test) x's shape: {}, y's shape:{}".format(x_test.shape, y_test.shape))
 
     # get label list
     label_dictionary = label_dic()

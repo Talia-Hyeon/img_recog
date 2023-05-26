@@ -104,7 +104,7 @@ if __name__ == '__main__':
         test_desc = test_img['desc']
         test_img_vector = encode_img(desc=test_desc, pca=pca, km=km)
         img_vectors_test.append(test_img_vector)
-    X_test = np.concatenate(img_vectors_test, axis=0)
+    X_test = np.vstack(img_vectors_test)
     np.save('test_img_vector.npy', X_test)
     y_test = get_all_item(data=test_set, key='label')
     np.save('test_label.npy', y_test)
