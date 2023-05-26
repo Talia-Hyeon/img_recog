@@ -32,7 +32,7 @@ def load_data(path='./caltech20/'):
     data_l = []
     for img_path in files_path:
         label = img_path.split('/')[-2]
-        label = label_dictionary[label]
+        # label = label_dictionary[label]
         img = cv2.imread(img_path, cv2.COLOR_BGR2RGB)  # type: 'numpy.ndarray'
         data = {'img': img, 'label': label, 'path': img_path}
         data_l.append(data)
