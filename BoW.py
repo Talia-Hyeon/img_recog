@@ -48,11 +48,8 @@ def scaling_pca(all_desc, num_com=0.95):  # 95% 분산 유지하도록 수정 (6
 
 def encode_img(desc, pca, km):
     desc_pca = pca.transform(desc)
-    desc_cluster = km.transform(desc_pca)
-    print("desc_cluster's shape: {}".format(desc_cluster.shape))
     labels = km.predict(desc_pca)
-    print("labels's shape: {}".format(labels.shape))
-    img_vector = np.zeros(1500)  # 1500
+    img_vector = np.zeros(num_cluster)  # 1500
     for cluster in labels:
         img_vector[cluster] += 1
     return img_vector
@@ -78,31 +75,28 @@ if __name__ == '__main__':
     print("reduced demension: {}".format(feature_pca[0].shape))
 
     # k-means clusturing
-    km = KMeans(n_clusters=1500, random_state=21)
+    global num_cluster
+    num_cluster = 1500
+    km = KMeans(n_clusters=num_cluster, random_state=21)
     km.fit(feature_pca)
-    centroid = km.cluster_centers_
-    np.save('centroid.npy', centroid)
 
     # learn visual dictionary
     # for train set
     train_set = dense_SIFT(train_set, sampling=False)  # extract feature
-    img_desc = train_set[0]['desc']
-    img_vector = encode_img(desc=img_desc, pca=pca, km=km)
+    img_vectors_train = []
+    for train_img in train_set:
+        train_desc = train_img['desc']
+        train_img_vector = encode_img(desc=train_desc, pca=pca, km=km)
+        img_vectors_train.append(train_img_vector)
+    X_train = np.concatenate(img_vectors_train, axis=0)
+    np.save('train_img_vector.npy')
 
-    # img_vectors_train = []
-    # for train_img in train_set:
-    #     train_desc = train_img['desc']
-    #     train_img_vector = encode_img(desc=train_desc, pca=pca, km=km)
-    #     img_vectors_train.append(train_img_vector)
-    # X_train = np.concatenate(img_vectors_train, axis=0)
-    # np.save('train_img_vector.npy')
-    #
-    # # for test set
-    # test_set = dense_SIFT(test_set, sampling=False)
-    # img_vectors_test = []
-    # for test_img in test_set:
-    #     test_desc = test_img['desc']
-    #     test_img_vector = encode_img(desc=test_desc, pca=pca, km=km)
-    #     img_vectors_test.append(test_img_vector)
-    # X_test = np.concatenate(img_vectors_test, axis=0)
-    # np.save('test_img_vector.npy')
+    # for test set
+    test_set = dense_SIFT(test_set, sampling=False)
+    img_vectors_test = []
+    for test_img in test_set:
+        test_desc = test_img['desc']
+        test_img_vector = encode_img(desc=test_desc, pca=pca, km=km)
+        img_vectors_test.append(test_img_vector)
+    X_test = np.concatenate(img_vectors_test, axis=0)
+    np.save('test_img_vector.npy')
