@@ -36,12 +36,12 @@ def get_all_desc(data):
     return all_desc
 
 
-def scaling_pca(all_desc, num_com=70):  # 95% 분산 유지하도록 수정 (60-70개)
+def scaling_pca(all_desc, num_com=0.95):  # 95% 분산 유지하도록 수정 (60-70개)
     # scaling
     scaler = StandardScaler()
     f_scaled = scaler.fit_transform(all_desc)
     # pca
-    pca = PCA(num_com)
+    pca = PCA(n_components=num_com)
     f_pca = pca.fit_transform(f_scaled)
     return f_pca, pca
 
@@ -50,8 +50,11 @@ def encode_img(desc, pca, km):
     desc_pca = pca.transform(desc)
     desc_cluster = km.transform(desc_pca)
     print("desc_cluster's type: {}, shape: {}".format(type(desc_cluster), desc_cluster.shape))
-    img_vector = np.zeros(1500)
-
+    img_vector = np.zeros(km.n_features_in_)  # 1500
+    labels = km.labels_
+    print("labels's shape: {}".format(labels.shape))
+    for cluster in labels:
+        img_vector[cluster] += 1
     return img_vector
 
 
@@ -87,10 +90,19 @@ if __name__ == '__main__':
     img_vector = encode_img(desc=img_desc, pca=pca, km=km)
 
     # img_vectors_train = []
-    # for img in train_set:
-    #     img_desc = img['desc']
-    #     img_vector = encode_img(desc=img_desc, pca=pca, km=km)
-    #     img_vectors_train.append(img_vector)
+    # for train_img in train_set:
+    #     train_desc = train_img['desc']
+    #     train_img_vector = encode_img(desc=train_desc, pca=pca, km=km)
+    #     img_vectors_train.append(train_img_vector)
+    # X_train = np.concatenate(img_vectors_train, axis=0)
+    # np.save('train_img_vector.npy')
     #
     # # for test set
     # test_set = dense_SIFT(test_set, sampling=False)
+    # img_vectors_test = []
+    # for test_img in test_set:
+    #     test_desc = test_img['desc']
+    #     test_img_vector = encode_img(desc=test_desc, pca=pca, km=km)
+    #     img_vectors_test.append(test_img_vector)
+    # X_test = np.concatenate(img_vectors_test, axis=0)
+    # np.save('test_img_vector.npy')
