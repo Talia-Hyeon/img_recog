@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
     # k-means clusturing
     global num_cluster
-    num_cluster = 8
+    num_cluster = 1500
     km = KMeans(n_clusters=num_cluster, random_state=21)
     km.fit(feature_pca)
 
@@ -93,8 +93,7 @@ if __name__ == '__main__':
         train_img['feature'] = train_img_vector
         img_vectors_train.append(train_img_vector)
     X_train = np.vstack(img_vectors_train)
-    print("train_set[0]: {}".format(train_set[0]))
-    np.save('train_img_vector_8.npy', X_train)
+    np.save('train_img_vector_1500.npy', X_train)
     y_train = get_all_item(data=train_set, key='label')
     np.save('train_label.npy', y_train)
 
@@ -106,6 +105,6 @@ if __name__ == '__main__':
         test_img_vector = encode_img(desc=test_desc, pca=pca, km=km)
         img_vectors_test.append(test_img_vector)
     X_test = np.vstack(img_vectors_test)
-    np.save('test_img_vector_8.npy', X_test)
+    np.save('test_img_vector_1500.npy', X_test)
     y_test = get_all_item(data=test_set, key='label')
     np.save('test_label.npy', y_test)
