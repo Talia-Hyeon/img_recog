@@ -16,4 +16,4 @@ k=1500
 * ![heatmap_1500](https://github.com/Talia-Hyeon/img_recog/assets/97673250/9cc80677-5c7f-4442-974f-74d89d0f782a)
 
 ## 3. image retrieval
-![retrieval](https://github.com/Talia-Hyeon/img_recog/assets/97673250/f05a4c8c-5fb5-416f-becc-4afe58b65614)
+![retrieval2](https://github.com/Talia-Hyeon/img_recog/assets/97673250/8ca296dc-baed-4f20-867d-9f975322cd8e)
