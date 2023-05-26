@@ -4,6 +4,7 @@ import sys
 
 import cv2
 from matplotlib import pyplot as plt
+import numpy as np
 from sklearn.model_selection import train_test_split
 
 
@@ -33,8 +34,9 @@ def load_data(path='./caltech20/'):
     for img_path in files_path:
         label = img_path.split('/')[-2]
         label = label_dictionary[label]
+        label_nd = np.array([label])
         img = cv2.imread(img_path, cv2.COLOR_BGR2RGB)  # type: 'numpy.ndarray'
-        data = {'img': img, 'label': label, 'path': img_path}
+        data = {'img': img, 'label': label_nd, 'path': img_path}
         data_l.append(data)
 
     # split into train/test
