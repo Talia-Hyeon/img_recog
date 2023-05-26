@@ -50,10 +50,9 @@ def encode_img(desc, pca, km):
     desc_pca = pca.transform(desc)
     desc_cluster = km.transform(desc_pca)
     print("desc_cluster's shape: {}".format(desc_cluster.shape))
-    print("km's features: {}".format(km.n_features_in_))
-    img_vector = np.zeros(1500)  # 1500
-    labels = km.predict(desc_cluster)
+    labels = km.predict(desc_pca)
     print("labels's shape: {}".format(labels.shape))
+    img_vector = np.zeros(1500)  # 1500
     for cluster in labels:
         img_vector[cluster] += 1
     return img_vector
