@@ -70,10 +70,10 @@ def Euclidean_distance(data_set):
     sorted_data = sorted(data_set, key=lambda x: x['dis'])
 
     # plot
-    for i in 8:
+    for i in range(8):
         img_path = sorted_data[i]['path']
         img = cv2.imread(img_path)
-        plt.subplot(1, 7, i + 1)
+        plt.subplot(1, 8, i + 1)
         plt.imshow(img)
     plt.show()
     plt.savefig('./figure/retrieval.png')
