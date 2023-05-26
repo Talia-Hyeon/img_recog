@@ -1,5 +1,6 @@
 import random
 import warnings
+import random
 
 import cv2
 import numpy as np
@@ -52,10 +53,31 @@ def scaling_pca(all_desc, num_com=0.95):  # 95% 분산 유지하도록 수정 (6
 def encode_img(desc, pca, km):
     desc_pca = pca.transform(desc)
     labels = km.predict(desc_pca)
-    img_vector = np.zeros(num_cluster)  # 1500
+    img_vector = np.zeros(num_cluster)
     for cluster in labels:
         img_vector[cluster] += 1
     return img_vector
+
+
+def Euclidean_distance(data_set):
+    sample = random.choice(data_set)
+    zero = sample['feature']
+    for item in data_set:
+        feature = item['feature']
+        distance = np.sqrt(np.sum((feature - zero) ** 2))
+        item['dis'] = distance
+
+    sorted_data = sorted(data_set, key=lambda x: x['dis'])
+
+    # plot
+    for i in 8:
+        img_path = sorted_data[i]['path']
+        img = cv2.imread(img_path)
+        plt.subplot(1, 7, i + 1)
+        plt.imshow(img)
+    plt.show()
+    plt.savefig('./figure/retrieval.png')
+    return sorted_data
 
 
 if __name__ == '__main__':
@@ -94,6 +116,7 @@ if __name__ == '__main__':
         img_vectors_train.append(train_img_vector)
     X_train = np.vstack(img_vectors_train)
     np.save('train_img_vector_1500.npy', X_train)
+    sorted_data = Euclidean_distance(train_set)
     y_train = get_all_item(data=train_set, key='label')
     np.save('train_label.npy', y_train)
 
