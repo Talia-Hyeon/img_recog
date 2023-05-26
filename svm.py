@@ -46,6 +46,7 @@ def svm_pip(x_train, y_train, x_test, y_test, label):
     plt.xlabel('Predicted')
     plt.ylabel('True')
     plt.show()
+    plt.savefig('./figure/heatmap.png')
     return svc_min
 
 
