@@ -40,11 +40,10 @@ def svm_pip(x_train, y_train, x_test, y_test, label):
     print('accuracy of SVC_minmax=', accuracy)
 
     # confusion matrix
-    cm = confusion_matrix(y_test, y_pred)
+    cm = confusion_matrix(y_test, y_pred, normalize='true')
     sns.heatmap(cm, annot=True, cmap='Blues')
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.show()
     plt.savefig('./figure/heatmap_2000.png')
     return svc_min
 
