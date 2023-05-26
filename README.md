@@ -8,6 +8,9 @@
 Maintaining a 95% dispersion (128d -> 74d)
 
 #### 3. Learn a visual dictionary (codebook) by k-means clustering
+k=1500
 #### 4. Encode an image vector
 
 ## 2. Support-Vector-Machine(SVM) training & test
+* ####confusion matrix
+* ![heatmap_1500](https://github.com/Talia-Hyeon/img_recog/assets/97673250/9cc80677-5c7f-4442-974f-74d89d0f782a)
