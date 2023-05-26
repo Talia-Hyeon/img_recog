@@ -91,7 +91,7 @@ if __name__ == '__main__':
         train_desc = train_img['desc']
         train_img_vector = encode_img(desc=train_desc, pca=pca, km=km)
         img_vectors_train.append(train_img_vector)
-    X_train = np.concatenate(img_vectors_train, axis=0)
+    X_train = np.stack(img_vectors_train, axis=0)
     np.save('train_img_vector.npy', X_train)
     y_train = get_all_item(data=train_set, key='label')
     np.save('train_label.npy', y_train)
