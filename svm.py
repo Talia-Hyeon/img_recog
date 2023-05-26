@@ -44,15 +44,15 @@ def svm_pip(x_train, y_train, x_test, y_test, label):
     sns.heatmap(cm, annot=True, cmap='Blues')
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.savefig('./figure/heatmap_1700.png')
+    plt.savefig('./figure/heatmap_1400.png')
     return svc_min
 
 
 if __name__ == '__main__':
     # load data: .npy
-    x_train = np.load('train_img_vector_1700.npy')
+    x_train = np.load('train_img_vector_1400.npy')
     y_train = np.load('train_label.npy')
-    x_test = np.load('test_img_vector_1700.npy')
+    x_test = np.load('test_img_vector_1400.npy')
     y_test = np.load('test_label.npy')
     print("train) x's shape: {}, y's shape:{}".format(x_train.shape, y_train.shape))
     print("test) x's shape: {}, y's shape:{}".format(x_test.shape, y_test.shape))
