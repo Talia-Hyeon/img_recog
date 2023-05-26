@@ -12,27 +12,26 @@ from caltech20 import label_dic
 
 
 def svm_pip(x_train, y_train, x_test, y_test, label):
-    # # scale
-    # scaler = MinMaxScaler()
-    # x_train_min = scaler.fit_transform(x_train)
-    #
-    # svc = SVC(random_state=42)
-    # # adjust hyper-parameter
-    # param_grid = [
-    #     {'C': [0.5, 1.0, 5, 10, 15, 20]},
-    #     {'kernel': ['linear', 'rbf', 'poly', 'sigmod']},
-    #     {'degree': [2, 3]}, {'gamma': ['scale', 'auto']}
-    # ]
-    # grid_search = GridSearchCV(svc, param_grid, cv=5)
-    # grid_search.fit(x_train_min, y_train)
-    # print("best hyper-parameter\n{}".format(grid_search.best_params_))
-    # svc_min = grid_search.best_estimator_
+    # scale
+    scaler = MinMaxScaler()
+    x_train_min = scaler.fit_transform(x_train)
 
-    # accuracy
-    svc_min = Pipeline([
-        ("scaler", MinMaxScaler()),
-        ("svc_clf", SVC(C=10, random_state=42))
-    ])
+    svc = SVC(random_state=42)
+    # adjust hyper-parameter
+    param_grid = [
+        {'C': [0.5, 1.0, 5, 10, 15, 20]},
+        {'kernel': ['linear', 'rbf', 'poly', 'sigmod']},
+        {'degree': [2, 3]}, {'gamma': ['scale', 'auto']}
+    ]
+    grid_search = GridSearchCV(svc, param_grid, cv=5)
+    grid_search.fit(x_train_min, y_train)
+    print("best hyper-parameter\n{}".format(grid_search.best_params_))
+    svc_min = grid_search.best_estimator_
+
+    # svc_min = Pipeline([
+    #     ("scaler", MinMaxScaler()),
+    #     ("svc_clf", SVC(C=10, random_state=42))
+    # ])
     svc_min.fit(x_train, y_train)
 
     # test
@@ -41,7 +40,7 @@ def svm_pip(x_train, y_train, x_test, y_test, label):
     print('accuracy of SVC_minmax=', accuracy)
 
     # confusion matrix
-    cm = confusion_matrix(y_test, y_pred, labels=label)
+    cm = confusion_matrix(y_test, y_pred)
     sns.heatmap(cm, annot=True, cmap='Blues')
     plt.xlabel('Predicted')
     plt.ylabel('True')
