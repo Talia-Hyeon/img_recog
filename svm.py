@@ -33,6 +33,7 @@ def svm_pip(x_train, y_train, x_test, y_test, label):
         ("scaler", MinMaxScaler()),
         ("svc_clf", SVC(C=10, random_state=42))
     ])
+    print("x's shape: {}, y's shape:{}".format(x_train.shape, y_train.shape))
     svc_min.fit(x_train, y_train)
 
     # test
